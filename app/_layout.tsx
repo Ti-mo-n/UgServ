@@ -60,10 +60,20 @@ function RootLayoutNav() {
         presentation: 'modal',
         headerLeft: () => (
           <TouchableOpacity onPress={() => router.back()}>
-            <Ionicons name="close-outline" size={(28)}/>
+            <Ionicons name="close-outline" size={28}/>
           </TouchableOpacity>
         ),
       }} /> 
+      <Stack.Screen name="listing/[id]" options={{ headerTitle: '' }} />
+      <Stack.Screen name="(modals)/booking" options={{ 
+        presentation: 'transparentModal',
+        animation: 'fade',
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => router.back()}>
+            <Ionicons name="close-outline" size={28}/>
+          </TouchableOpacity>
+        ),
+      }} />
     </Stack>
   );
 }
