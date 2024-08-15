@@ -3,7 +3,7 @@ import React from 'react'
 import { useAuth } from '@clerk/clerk-expo'
 import { Link } from 'expo-router';
 
-const Explore = () => {
+const Page = () => {
     const { signOut, isSignedIn } = useAuth();
 
     return (
@@ -15,7 +15,7 @@ const Explore = () => {
                 </Link>
             )}
         </View>
-    )
-}
+    );
+};
 
-export default Explore
+export default Page;
