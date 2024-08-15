@@ -9,22 +9,20 @@ import { useRouter } from 'expo-router';
 
 enum Strategy {
     Google= 'oauth_google',
-    Apple= 'oauth_apple',
-    Facebook= 'oauth_facebook',
+    
 }
 
 const Page = () => {
     useWarmUpBrowser();
     const router = useRouter();
     const { startOAuthFlow: googleAuth } = useOAuth({strategy: 'oauth_google'});
-    const { startOAuthFlow: appleAuth } = useOAuth({strategy: 'oauth_apple'});
-    const { startOAuthFlow: facebookAuth } = useOAuth({strategy: 'oauth_facebook'});
+    // const { startOAuthFlow: appleAuth } = useOAuth({strategy: 'oauth_apple'});
+    // const { startOAuthFlow: facebookAuth } = useOAuth({strategy: 'oauth_facebook'});
 
     const onSelectAuth = async (strategy: Strategy) => {
         const selectedAuth = {
             [Strategy.Google]: googleAuth,
-            [Strategy.Apple]: appleAuth,
-            [Strategy.Facebook]: facebookAuth,
+            
         }[strategy];
 
         try {
@@ -42,42 +40,28 @@ const Page = () => {
 
     return (
         <View style={styles.container}>
-           <TextInput autoCapitalize='none' placeholder='Email' style={[defaultStyles.inputField, {marginBottom: 30}]}/>
-           <TouchableOpacity style={defaultStyles.btn}>
-            <Text style={defaultStyles.btnText}>Continue</Text>
-           </TouchableOpacity>
-           <View style={styles.seperatorView}>
-            <View style={{
-                flex: 1,
-                borderBlockColor: '#000',
-                borderBottomWidth: StyleSheet.hairlineWidth,
-            }} />
-            <Text style={styles.seperator}>or</Text>
-            <View style={{
-                flex: 1,
-                borderBlockColor: '#000',
-                borderBottomWidth: StyleSheet.hairlineWidth,
-            }} />
-           </View>
-           <View style={{gap: 20}}>
-            <TouchableOpacity style={styles.btnOutline} >
-                <Ionicons name='call-outline' size={22} style={defaultStyles.btnIcon} />
-                <Text style={styles.btnOutlineText}>Continue with Phone</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.btnOutline} onPress={() => onSelectAuth(Strategy.Apple)}>
-                <Ionicons name='logo-apple' size={24} style={defaultStyles.btnIcon} />
-                <Text style={styles.btnOutlineText}>Continue with Apple</Text>
-            </TouchableOpacity>
+           
             <TouchableOpacity style={styles.btnOutline} onPress={() => onSelectAuth(Strategy.Google)}>
                 <Ionicons name='logo-google' size={24} style={defaultStyles.btnIcon} />
-                <Text style={styles.btnOutlineText}>Continue with Google</Text>
+                <Text style={styles.btnOutlineText}>Signin with Google</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnOutline}>
-                <Ionicons name='logo-facebook' size={24} style={defaultStyles.btnIcon} onPress={() => onSelectAuth(Strategy.Facebook)}/>
-                <Text style={styles.btnOutlineText}>Continue with Facebook</Text>
-            </TouchableOpacity>
+            <View style={styles.seperatorView}>
+            <View style={{
+                flex: 1,
+                borderBlockColor: '#000',
+                borderBottomWidth: StyleSheet.hairlineWidth,
+            }} />
+            
+            <View style={{
+                flex: 1,
+                borderBlockColor: '#000',
+                borderBottomWidth: StyleSheet.hairlineWidth,
+            }} />
            </View>
-        </View>
+
+            
+           </View>
+        
     )
 }
 
