@@ -1,10 +1,12 @@
-import { View, Text, Button, StyleSheet } from 'react-native'
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react' 
 import { useAuth, useUser } from '@clerk/clerk-expo'
 import { Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { defaultStyles } from '@/constants/Styles';
+import Colors from '@/constants/Colors';
+import { Image } from 'react-native';
 
 const Page = () => {
     const { signOut, isSignedIn } = useAuth();
@@ -35,10 +37,19 @@ const Page = () => {
                 <Text style={styles.header}>Profile</Text>
                 <Ionicons name='notifications-outline' size={26}/>
             </View>
-            <Button title='Log out' onPress={() => signOut}/>
+
+            {user && (
+                <View style={styles.card}>
+                    <TouchableOpacity onPress={onCaptureImage}>
+                        <Image source={{ uri: user?.imageUrl }} style={styles.avatar}/>
+                    </TouchableOpacity>
+                </View>
+            )}
+
+            {isSignedIn && <Button title='Log out' onPress={() => signOut()} color={Colors.dark}/>}
             {!isSignedIn && (
-                <Link href={'/(modals)/login'}>
-                    <Text>Login</Text>
+                <Link href={'/(modals)/login'} asChild>
+                    <Button title='Log In' color={Colors.dark}/>
                 </Link>
             )}
         </SafeAreaView>
@@ -55,6 +66,30 @@ const styles = StyleSheet.create({
     header: {
         fontFamily: 'mon-b',
         fontSize: 24,
+    },
+    card: {
+        backgroundColor: '#fff',
+        padding: 24,
+        borderRadius: 16,
+        marginHorizontal: 24,
+        marginTop: 24,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOpacity: 0.2,
+        shadowRadius:6,
+        shadowOffset: {
+            width: 1,
+            height: 2,
+        },
+        alignItems: 'center',
+        gap: 14,
+        marginBottom: 24,
+    },
+    avatar: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        backgroundColor: Colors.grey,
     }
 });
 
