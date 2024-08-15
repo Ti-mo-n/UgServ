@@ -24,9 +24,9 @@ const Layout = () => {
             tabBarIcon: ({color, size}) => <Ionicons name="heart-outline" color={color} size={size} />
         }}/>
         <Tabs.Screen
-         name="trips" 
+         name="maps" 
          options={{
-            tabBarLabel: 'Trips',
+            tabBarLabel: 'maps',
             tabBarIcon: ({color, size}) => <FontAwesome5 name="airbnb" color={color} size={size} />
         }}/>
         <Tabs.Screen
