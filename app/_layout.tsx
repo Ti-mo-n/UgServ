@@ -2,12 +2,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
 import { Stack, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import 'react-native-reanimated';
 import * as SecureStore from 'expo-secure-store';
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
 import onboardingscreen from './screens/onboardingscreen';
+import { getItem } from '@/utils/asyncStorage';
+
 
 const EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -79,7 +81,28 @@ function RootLayoutNav() {
       router.push('/(modals)/login')
     }
   }, [isLoaded])
-   
+
+  const [showOnboarding, setShowOnboarding] = useState<boolean | null>(null);
+  useEffect(() =>{
+    checkIfAlreadyOnboarded();
+  },[])
+
+  const checkIfAlreadyOnboarded = async () => {
+    let onboarded = await getItem('onboarded');
+    if ((onboarded ?? '') === '1'){
+      // hide onboarding
+      setShowOnboarding(false);
+    }else{
+      // show onboarding
+      setShowOnboarding(true);
+    }
+  }
+
+if(showOnboarding==null){
+  return null;
+}
+ 
+if(showOnboarding){
   return (
     <Stack initialRouteName="screens/onboardingscreen">
       <Stack.Screen name="screens/onboardingscreen" options={{ headerShown: false }} />
@@ -108,4 +131,34 @@ function RootLayoutNav() {
       }} />
     </Stack>
   );
+}else{
+  return (
+    <Stack initialRouteName="(tabs)/index">
+      <Stack.Screen name="screens/onboardingscreen" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="(modals)/login" options={{ 
+        title: 'Login or Signup',
+        headerTitleStyle: {
+          fontFamily: 'mon-sb',
+        },
+        presentation: 'modal',
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => router.back()}>
+            <Ionicons name="close-outline" size={28}/>
+          </TouchableOpacity>
+        ),
+      }} /> 
+      <Stack.Screen name="listing/[id]" options={{ headerTitle: '' }} />
+      <Stack.Screen name="(modals)/booking" options={{ 
+        presentation: 'transparentModal',
+        animation: 'fade',
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => router.back()}>
+            <Ionicons name="close-outline" size={28}/>
+          </TouchableOpacity>
+        ),
+      }} />
+    </Stack>
+  );
+}
 }
