@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native';
 import 'react-native-reanimated';
 import * as SecureStore from 'expo-secure-store';
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
+import onboardingscreen from './screens/onboardingscreen';
 
 const EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -80,7 +81,8 @@ function RootLayoutNav() {
   }, [isLoaded])
    
   return (
-    <Stack>
+    <Stack initialRouteName="screens/onboardingscreen">
+      <Stack.Screen name="screens/onboardingscreen" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="(modals)/login" options={{ 
         title: 'Login or Signup',
