@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import Onboarding from 'react-native-onboarding-swiper';
 import { useRouter } from 'expo-router';
 import { setItem } from '@/utils/asyncStorage';
-import { Checkbox } from 'react-native-paper'; // You may need to install react-native-paper if not already installed
+import { Checkbox } from 'react-native-paper';
+import LottieView from 'lottie-react-native';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -16,7 +18,7 @@ interface DoneButtonProps {
 export default function onboardingscreen() {
   const router = useRouter();
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
-  const [isChecked, setIsChecked] = useState(false); // State to track checkbox
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleDone = () => {
     if (selectedRole && isChecked) {
@@ -35,7 +37,7 @@ export default function onboardingscreen() {
         {...props}
         disabled={disabled}
       >
-        <Text style={{ color: disabled ? '#ccc' : '#000' }}>Done</Text>
+        <Text style={{ color: disabled ? '#8E8E93' : '#FFFFFF' }}>Done</Text>
       </TouchableOpacity>
     );
   };
@@ -62,6 +64,8 @@ export default function onboardingscreen() {
       <Checkbox
         status={isChecked ? 'checked' : 'unchecked'}
         onPress={() => setIsChecked(!isChecked)}
+        color='#0A84FF'
+        uncheckedColor='#0A84FF'
       />
       <TouchableOpacity onPress={() => router.push('/terms')}>
         <Text style={styles.termsText}>I agree to the set terms and conditions</Text>
@@ -77,32 +81,35 @@ export default function onboardingscreen() {
         DoneButtonComponent={DoneButton}
         bottomBarHighlight={false}
         containerStyles={{ paddingHorizontal: 15 }}
+        pageIndexCallback={(index) => console.log(index)}
+        titleStyles={styles.title}
+        subTitleStyles={styles.subtitle}
         pages={[
           {
-            backgroundColor: '#fff',
+            backgroundColor: '#1C1C1E',
             image: (
-              <View style={styles.lottle}>
-                <Text>Hello world</Text>
+              <View >
+                 <Text style={styles.lottleText}>App logo</Text>
               </View>
             ),
-            title: 'Onboarding',
-            subtitle: 'Done with React Native Onboarding Swiper',
+            title: 'UgServ',
+            subtitle: 'Leading Service Provider App in Uganda',
           },
           {
-            backgroundColor: '#fff',
+            backgroundColor: '#1C1C1E',
             image: (
-              <View>
-                <Text>Hello world</Text>
+              <View style={styles.lottle}>
+                 <LottieView source={require('@/assets/animations/usertype.json')} autoPlay loop style={styles.lottle} />
               </View>
             ),
             title: 'Select Your Role',
             subtitle: <RoleSelection />,
           },
           {
-            backgroundColor: '#fff',
+            backgroundColor: '#1C1C1E',
             image: (
-              <View>
-                <Text>Hello world</Text>
+              <View style={styles.lottle}>
+                <LottieView source={require('@/assets/animations/tandc2.json')} autoPlay loop style={styles.lottle} />
               </View>
             ),
             title: 'Agree to Terms',
@@ -117,20 +124,23 @@ export default function onboardingscreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#1C1C1E',
   },
   lottle: {
-    width: width * 0.09,
-    height: width * 0.09,
+    width: width * 0.9,
+    height: width ,
+  },
+  lottleText: {
+    color: '#FFFFFF',
   },
   doneButton: {
     padding: 20,
-    backgroundColor: 'white',
-    borderTopLeftRadius: 100,
-    borderBottomLeftRadius: 100,
+    backgroundColor: '#0A84FF',
+    borderTopLeftRadius: 25,
+    borderBottomLeftRadius: 25,
   },
   disabledButton: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#3A3A3C',
   },
   roleContainer: {
     flexDirection: 'row',
@@ -140,16 +150,17 @@ const styles = StyleSheet.create({
   roleButton: {
     padding: 15,
     borderWidth: 1,
-    borderColor: '#000',
-    borderRadius: 5,
+    borderColor: '#0A84FF',
+    borderRadius: 25,
     width: width * 0.35,
     alignItems: 'center',
   },
   selectedButton: {
-    backgroundColor: '#d3d3d3',
+    backgroundColor: '#0A84FF',
   },
   roleButtonText: {
     fontSize: 16,
+    color: '#FFFFFF',
   },
   termsContainer: {
     flexDirection: 'row',
@@ -158,7 +169,14 @@ const styles = StyleSheet.create({
   },
   termsText: {
     marginLeft: 10,
-    color: '#0000FF',
+    color: '#0A84FF',
     textDecorationLine: 'underline',
+  },
+  title: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
+  subtitle: {
+    color: '#8E8E93',
   },
 });

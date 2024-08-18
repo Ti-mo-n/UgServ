@@ -64,6 +64,7 @@ const Page = () => {
 
             {user && (
                 <View style={styles.card}>
+                    <Text style={styles.cardheader}>Personal Information</Text>
                     <TouchableOpacity onPress={onCaptureImage}>
                         <Image source={{ uri: user?.imageUrl }} style={styles.avatar}/>
                     </TouchableOpacity>
@@ -151,7 +152,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 8,
-    }
+    },
+    cardheader: {
+        fontFamily: 'mon-b',
+        fontSize: 24,
+        alignContent: 'flex-start'
+    },
 });
 
 export default Page;
